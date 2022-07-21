@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   CursorDiv,
@@ -22,25 +22,31 @@ import { loadingIcon } from "./loading.svg";
 import EachPost from "./EachPost";
 
 const initialPostList = [
-  { id: 1, title: "시사 N 대학기자상 취재", replCount: 1 },
-  { id: 2, title: "시사 N 대학기자상 취재", replCount: 43 },
-  { id: 3, title: "시사 N 대학기자상 취재", replCount: 2 },
+  { id: 1, title: "시사 N 대학기자상 취재" },
+  { id: 2, title: "시사 N 대학기자상 취재" },
+  { id: 3, title: "시사 N 대학기자상 취재" },
 ];
 
 const ShowPostList = () => {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [isPost, setIsPost] = useState(false);
-  const [postList, setPostList] = useState(initialPostList);
+  const [postList, setPostList] = useState([]);
   const addPost = () => {
     setPostList((postList) => [
       ...postList,
-      { id: 4, title: "시사 N 대학기자상 취재", replCount: 21 },
+      { id: 4, title: "시사 N 대학기자상 취재" },
     ]);
   };
   const navigate = useNavigate();
   const goWirte = () => {
     navigate("/write");
   };
+  useEffect(() => {
+    setTimeout(() => {
+      setPostList(initialPostList);
+      setLoading(false);
+    }, 600);
+  }, []); // 렌더링되고 처음 한번만 실행되도록 빈배열 넣어줌
 
   return (
     <>
@@ -66,7 +72,7 @@ const ShowPostList = () => {
                 <EachPost
                   key={element.id}
                   title={element.title}
-                  replCount={element.replCount}
+                  postID={element.id}
                 />
               ))}
             </ul>
