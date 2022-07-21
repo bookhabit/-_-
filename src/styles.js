@@ -16,3 +16,4 @@ export const darkTheme = {
 export const GlobalStyles = createGlobalStyle`
     ${reset}
 `;
+ 
