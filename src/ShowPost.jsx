@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import {
   PostSection,
   PostTitleDiv,
@@ -52,8 +52,19 @@ const ShowPost = ({ apiUrl }) => {
   //input창 상태관리
   const [repl, setRepl] = useState("");
 
+  const onChange = (e) => {
+    setRepl(e.target.value);
+  };
+
+  // 댓글 개수 세기
+  const countRepls = (repls) => {
+    console.log("리뷰 개수 세는 중 ...");
+    return repls.length;
+  };
   //memo hook실습
-  const replCount = 0;
+  // const replCount = countRepls(repls);
+  const replCount = useMemo(() => countRepls(repls), [repls]);
+
   return (
     <div>
       <PostSection>
@@ -84,7 +95,7 @@ const ShowPost = ({ apiUrl }) => {
         )}
 
         <WriterDiv>
-          <ReplInput></ReplInput>
+          <ReplInput onChange={onChange} value={repl}></ReplInput>
           <ReplSubmitDiv>
             <span>입력</span>
           </ReplSubmitDiv>
