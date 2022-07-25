@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useRef } from "react";
 import {
   PostSection,
   PostTitleDiv,
@@ -39,14 +39,15 @@ const ShowPost = ({ apiUrl }) => {
     setTimeout(() => {
       setPost(postData);
       setPostLoading(false);
-    }, 1000);
+    }, 300);
   });
 
   useEffect(() => {
     setTimeout(() => {
       setRepls(replData);
       setReplLoading(false);
-    }, 3000);
+      replInput.current.focus();
+    }, 1000);
   });
 
   //input창 상태관리
@@ -54,6 +55,7 @@ const ShowPost = ({ apiUrl }) => {
 
   const onChange = (e) => {
     setRepl(e.target.value);
+    // console.log(repl);
   };
 
   // 댓글 개수 세기
@@ -64,6 +66,9 @@ const ShowPost = ({ apiUrl }) => {
   //memo hook실습
   // const replCount = countRepls(repls);
   const replCount = useMemo(() => countRepls(repls), [repls]);
+
+  // 댓글 입력란에 포커스주기
+  const replInput = useRef();
 
   return (
     <div>
@@ -95,7 +100,11 @@ const ShowPost = ({ apiUrl }) => {
         )}
 
         <WriterDiv>
-          <ReplInput onChange={onChange} value={repl}></ReplInput>
+          <ReplInput
+            ref={replInput}
+            onChange={onChange}
+            value={repl}
+          ></ReplInput>
           <ReplSubmitDiv>
             <span>입력</span>
           </ReplSubmitDiv>
