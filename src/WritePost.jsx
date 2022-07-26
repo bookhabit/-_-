@@ -8,11 +8,11 @@ import {
 } from "./styledComponent";
 import InputPost from "./InputPost";
 
-const SubmitComponent = () => (
+const SubmitComponent = React.memo(() => (
   <PostSubmitDiv>
     <PostSubmit>작성완료</PostSubmit>
   </PostSubmitDiv>
-);
+));
 
 const WritePost = () => {
   // useState

@@ -14,6 +14,8 @@ import { Routes, Route } from "react-router-dom";
 import ShowPost from "./ShowPost";
 import WritePost from "./WritePost";
 
+const API_URL = "https://reactapitest.pythonanywhere.com/api/";
+
 function App() {
   // const darkMode = true; // 다크모드 구분하는 변수
   // const loading = false; // 로딩을 구분하는 변수
@@ -30,7 +32,10 @@ function App() {
           <Main>
             <Slogun />
             <Routes>
-              <Route path="/" element={<ShowPostList />}></Route>
+              <Route
+                path="/"
+                element={<ShowPostList apiUrl={API_URL} />}
+              ></Route>
               <Route path="/write" element={<WritePost></WritePost>}></Route>
               <Route
                 path="/post/:postID"

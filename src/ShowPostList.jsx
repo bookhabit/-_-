@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   CursorDiv,
@@ -20,32 +20,37 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { loadingIcon } from "./loading.svg";
 import EachPost from "./EachPost";
+import axios from "axios";
 
+// 서버에서 데이터를 가져와서 포스팅하기 전 미리 구현을 위한 임의 배열
 const initialPostList = [
   { id: 1, title: "시사 N 대학기자상 취재" },
   { id: 2, title: "시사 N 대학기자상 취재" },
   { id: 3, title: "시사 N 대학기자상 취재" },
 ];
 
-const ShowPostList = () => {
+const ShowPostList = ({ apiUrl }) => {
   const [loading, setLoading] = useState(true);
   const [isPost, setIsPost] = useState(false);
   const [postList, setPostList] = useState([]);
-  const addPost = () => {
+
+  const addPost = useCallback(() => {
     setPostList((postList) => [
       ...postList,
       { id: 4, title: "시사 N 대학기자상 취재" },
     ]);
-  };
+  }, [postList]);
+
   const navigate = useNavigate();
   const goWirte = () => {
     navigate("/write");
   };
   useEffect(() => {
-    setTimeout(() => {
-      setPostList(initialPostList);
+    axios.get(`${apiUrl}list/?page=1&page_size=10`).then((response) => {
+      console.log(response.data);
+      setPostList(response.data.results);
       setLoading(false);
-    }, 600);
+    });
   }, []); // 렌더링되고 처음 한번만 실행되도록 빈배열 넣어줌
 
   return (
