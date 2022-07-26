@@ -25,6 +25,7 @@ const InputPost = ({ onChange, contents, title }) => {
       <ContentsInput
         name="contents"
         value={contents}
+        onChange={onChange}
         cols="30"
         rows="10"
         ref={contentsInput}

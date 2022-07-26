@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useRef } from "react";
+import React, { useEffect, useState, useMemo, useRef } from "react";
 import {
   PostSection,
   PostTitleDiv,
@@ -13,7 +13,6 @@ import {
   ReplInput,
   ReplSubmitDiv,
 } from "./styledComponent";
-import { useEffect } from "react";
 
 const postData = {
   title: `바운스`,
@@ -70,35 +69,50 @@ const ShowPost = ({ apiUrl }) => {
   // 댓글 입력란에 포커스주기
   const replInput = useRef();
 
+  const PostAndRepl = React.memo(
+    ({ post, postLoading, replCount, replLoading, repls }) => {
+      return (
+        <>
+          <PostTitleDiv>
+            <PostTitle>{post && post.title}</PostTitle>
+          </PostTitleDiv>
+
+          {postLoading ? (
+            <LoadingDiv>
+              <LoadingImg src={`${process.env.PUBLIC_URL}/img/loading.svg`} />
+            </LoadingDiv>
+          ) : (
+            <PostReplDiv>{post && post.contents}</PostReplDiv>
+          )}
+          <ReplTitleDiv>댓글{replCount}</ReplTitleDiv>
+          {replLoading ? (
+            <LoadingDiv>
+              <LoadingImg src={`${process.env.PUBLIC_URL}/img/loading.svg`} />
+            </LoadingDiv>
+          ) : (
+            repls &&
+            repls.map((element) => (
+              <PostReplDiv key={element.id}>
+                <ReplWriter>익명</ReplWriter>
+                <Repl>{element.contents}</Repl>
+              </PostReplDiv>
+            ))
+          )}
+        </>
+      );
+    }
+  );
+
   return (
     <div>
       <PostSection>
-        <PostTitleDiv>
-          <PostTitle>{post && post.title}</PostTitle>
-        </PostTitleDiv>
-
-        {postLoading ? (
-          <LoadingDiv>
-            <LoadingImg src={`${process.env.PUBLIC_URL}/img/loading.svg`} />
-          </LoadingDiv>
-        ) : (
-          <PostReplDiv>{post && post.contents}</PostReplDiv>
-        )}
-        <ReplTitleDiv>댓글{replCount}</ReplTitleDiv>
-        {replLoading ? (
-          <LoadingDiv>
-            <LoadingImg src={`${process.env.PUBLIC_URL}/img/loading.svg`} />
-          </LoadingDiv>
-        ) : (
-          repls &&
-          repls.map((element) => (
-            <PostReplDiv key={element.id}>
-              <ReplWriter>익명</ReplWriter>
-              <Repl>{element.contents}</Repl>
-            </PostReplDiv>
-          ))
-        )}
-
+        <PostAndRepl
+          post={post}
+          postLoading={postLoading}
+          replCount={replCount}
+          replLoading={replLoading}
+          repls={repls}
+        />
         <WriterDiv>
           <ReplInput
             ref={replInput}
