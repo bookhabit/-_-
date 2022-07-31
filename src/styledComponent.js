@@ -251,5 +251,12 @@ export const PostSubmit = styled.div`
   font-family: "Black Han Sans", sans-serif;
   font-size: 20px;
 `;
+// 마우스 위에 올려놓을때 hover 이벤트 적용
+export const EachPostHover = styled.div`
+  &:hover {
+    background-color: rgb(0, 0, 0, 0.5);
+    color: rgb(255, 255, 255, 100);
+  }
+`;
 
 // export default MediaDiv;
