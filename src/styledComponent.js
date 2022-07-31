@@ -258,5 +258,18 @@ export const EachPostHover = styled.div`
     color: rgb(255, 255, 255, 100);
   }
 `;
+//  게시판 페이지 번호 클릭할 때 효과주기
+export const ClickPostPages = styled.div`
+  &:hover {
+    background-color: rgb(255, 255, 255, 100);
+    color: rgb(0, 0, 0, 0.5);
+  }
+`;
+
+// // 현재페이지 색상
+// export const CurrentPage = styled.div`
+//   background-color: rgb(230, 219, 219, 100);
+//   color: rgb(51, 45, 45, 0.5);
+// `;
 
 // export default MediaDiv;

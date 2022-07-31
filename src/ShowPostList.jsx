@@ -10,6 +10,7 @@ import {
   PostSection,
   PostTitle,
   PostTitleDiv,
+  ClickPostPages,
 } from "./styledComponent";
 import {
   faArrowsRotate,
@@ -21,7 +22,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { loadingIcon } from "./loading.svg";
 import EachPost from "./EachPost";
 import axios from "axios";
-
 // 서버에서 데이터를 가져와서 포스팅하기 전 미리 구현을 위한 임의 배열
 // const initialPostList = [
 //   { id: 1, title: "시사 N 대학기자상 취재" },
@@ -110,37 +110,46 @@ const ShowPostList = ({ apiUrl }) => {
           )}
         </PostListDiv>
       </PostSection>
+
       <PagingSection style={{ cursor: "pointer" }}>
-        <PagenumberDiv
-          onClick={() => {
-            if (page > 1) {
-              setPage(page - 1);
-            }
-          }}
-        >
-          <FontAwesomeIcon icon={faArrowLeft} />
-        </PagenumberDiv>
-        {pages.map((pageNum) => (
+        <ClickPostPages>
           <PagenumberDiv
-            key={pageNum}
             onClick={() => {
-              setPage(pageNum);
-              //console.log(pageNum);
+              if (page > 1) {
+                setPage(page - 1);
+              }
             }}
           >
-            {pageNum}
+            <FontAwesomeIcon icon={faArrowLeft} />
           </PagenumberDiv>
+        </ClickPostPages>
+
+        {pages.map((pageNum) => (
+          <ClickPostPages>
+            <PagenumberDiv
+              key={pageNum}
+              onClick={() => {
+                setPage(pageNum);
+                //console.log("pagaNum은", pageNum);
+              }}
+            >
+              {pageNum}
+            </PagenumberDiv>
+          </ClickPostPages>
         ))}
-        <PagenumberDiv
-          onClick={() => {
-            console.log(totalLastPage);
-            if (totalLastPage > page) {
-              setPage(page + 1);
-            }
-          }}
-        >
-          <FontAwesomeIcon icon={faArrowRight} />
-        </PagenumberDiv>
+
+        <ClickPostPages>
+          <PagenumberDiv
+            onClick={() => {
+              console.log(totalLastPage);
+              if (totalLastPage > page) {
+                setPage(page + 1);
+              }
+            }}
+          >
+            <FontAwesomeIcon icon={faArrowRight} />
+          </PagenumberDiv>
+        </ClickPostPages>
       </PagingSection>
     </>
   );
