@@ -45,7 +45,7 @@ const ShowPostList = ({ apiUrl }) => {
       // const lastPage = Math.ceil(response.data.count / 30); // 전체 페이지 개수
       let lastPage = 1;
       if (page % 5 == 0) {
-        lastPage = parseInt(page / 5) * 5;
+        lastPage = page; // page%5  0으로 나누어진 다는 것은 5의 배수로 마지막 페이지 라는 뜻
       } else {
         lastPage = (parseInt(page / 5) + 1) * 5;
       }
