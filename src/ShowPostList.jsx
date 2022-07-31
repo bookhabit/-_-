@@ -42,9 +42,17 @@ const ShowPostList = ({ apiUrl }) => {
     axios.get(`${apiUrl}list/?page=${page}&page_size=10`).then((response) => {
       console.log(response.data);
       setTotalLastPage(response.data.count);
-      const lastPage = Math.ceil(response.data.count / 30); // 전체 페이지 개수
+      // const lastPage = Math.ceil(response.data.count / 30); // 전체 페이지 개수
+      let lastPage = 1;
+      if (page % 5 == 0) {
+        lastPage = parseInt(page / 5) * 5;
+      } else {
+        lastPage = (parseInt(page / 5) + 1) * 5;
+      }
+      console.log("lastpage : ", lastPage);
+
       const tempPages = [];
-      for (let i = 1; i <= lastPage; i++) {
+      for (let i = lastPage - 4; i <= lastPage; i++) {
         tempPages.push(i);
       }
       setPages(tempPages);
