@@ -31,6 +31,7 @@ import axios from "axios";
 
 const PostAndRepl = React.memo(
   ({ post, postLoading, replCount, replLoading, repls }) => {
+    //console.log(repls);
     return (
       <>
         <PostTitleDiv>
@@ -54,7 +55,7 @@ const PostAndRepl = React.memo(
           repls.map((element) => (
             <PostReplDiv key={element.id}>
               <ReplWriter>익명</ReplWriter>
-              <Repl>{element.contents}</Repl>
+              <Repl>{element}</Repl>
             </PostReplDiv>
           ))
         )}
@@ -72,6 +73,7 @@ const ShowPost = ({ apiUrl }) => {
 
   // 실제 데이터 가져오기
   useEffect(() => {
+    //console.log(Params);
     axios.get(`${apiUrl}posts/${Params.postID}`).then((response) => {
       setPost(response.data);
       setPostLoading(false);
@@ -118,6 +120,19 @@ const ShowPost = ({ apiUrl }) => {
   // 댓글 입력란에 포커스주기
   const replInput = useRef();
 
+  const onSubmitRepl = () => {
+    axios
+      .post(`${apiUrl}repl/`, {
+        contents: repl,
+        post: Params.postID,
+      })
+      .then((response) => {
+        console.log("reponse.data:", response.data);
+        // 새로고침
+        window.location.reload();
+      });
+  };
+
   return (
     <div>
       <PostSection>
@@ -134,7 +149,7 @@ const ShowPost = ({ apiUrl }) => {
             onChange={onChange}
             value={repl}
           ></ReplInput>
-          <ReplSubmitDiv>
+          <ReplSubmitDiv onClick={onSubmitRepl}>
             <span>입력</span>
           </ReplSubmitDiv>
         </WriterDiv>
